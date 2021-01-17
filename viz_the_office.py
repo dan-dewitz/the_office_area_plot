@@ -4,20 +4,19 @@ import os
 import sys
 import re
 import pandas as pd
-import plotly
-import plotly.plotly as py
-import plotly.offline as offline
-import plotly.graph_objs as go
-from nltk.tokenize import word_tokenize
-
+# import plotly
+# import plotly.plotly as py
+# import plotly.offline as offline
+import nltk
+nltk.download("punkt")
 
 # set online credentials for plotly
-plotly.tools.set_credentials_file(username='ddewitz',
-                                  api_key='0UJR1yePEy3DEI3Z3grC')
+# plotly.tools.set_credentials_file(username='ddewitz',
+#                                   api_key='0UJR1yePEy3DEI3Z3grC')
 
 
 def main(preprocess=False, plot=False):
-    '''highest level function that drives the program
+    '''program control function
 
     if preprocess=True:
         tokenize, count, and group df
@@ -25,7 +24,7 @@ def main(preprocess=False, plot=False):
         return: clean df
 
     if plot=True:
-        create plotly area plot
+        create plotly RRa plot
 
         return: online and local area plot
     '''
@@ -60,20 +59,20 @@ def main(preprocess=False, plot=False):
 
         # Group: speaker, season, count
         # -----------------------------
-        grouped = lines_counted[['speaker', 'season', 'word_count']].groupby(['speaker', 'season']).sum()
-        print(grouped)
+        # grouped = lines_counted[['speaker', 'season', 'word_count']].groupby(['speaker', 'season']).sum()
+        # print(grouped)
 
         # group: speaker, season
-        grouped_slim = lines_counted[['speaker', 'season', 'word_count']].groupby(['speaker']).sum()
-        print(grouped_slim)
+        # grouped_slim = lines_counted[['speaker', 'season', 'word_count']].groupby(['speaker']).sum()
+        # print(grouped_slim)
 
-        out_file_1 = '/output/word_tok.csv'
-        out_file_2 = '/output/word_tok_speaker.csv'
-        out_path_1 = get_path() + out_file_1
-        out_path_2 = get_path() + out_file_2
-
-        grouped.to_csv(out_path_1)
-        grouped_slim.to_csv(out_path_2)
+        # out_file_1 = '/output/word_tok.csv'
+        # out_file_2 = '/output/word_tok_speaker.csv'
+        # out_path_1 = get_path() + out_file_1
+        # out_path_2 = get_path() + out_file_2
+        #
+        # grouped.to_csv(out_path_1)
+        # grouped_slim.to_csv(out_path_2)
 
     # CREATE AREA PLOT
     if plot:
@@ -239,7 +238,7 @@ def word_tok(row):
     no_white = no_brackets.strip()
 
     # tokenize words
-    word_tokens = word_tokenize(no_white)
+    word_tokens = nltk.word_tokenize(no_white)
 
     # lowercase all words
     lower_tokens = [tok.lower() for tok in word_tokens]
@@ -261,4 +260,4 @@ def get_path():
 
 
 if __name__ == "__main__":
-    main(plot=True)
+    main(preprocess=True)
